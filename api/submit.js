@@ -32,6 +32,8 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
+    // Add `id` field so the frontend's success check (data.id) passes
+    if (data.success) return res.status(200).json({ ...data, id: data.decision });
     return res.status(response.status).json(data);
   } catch (err) {
     return res.status(500).json({ error: err.message });
